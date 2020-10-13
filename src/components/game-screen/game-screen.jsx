@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import Redirect from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
 import {GameType} from "../../const";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
