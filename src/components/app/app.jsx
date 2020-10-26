@@ -1,52 +1,44 @@
 import React from "react";
-import PropTypes from "prop-types";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {Switch, Route, BrowserRouter} from "react-router-dom";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
-import Login from "../login/login";
-import FailTries from "../fail-tries/fail-tries";
-import ResultSuccess from "../result-success/result-success";
+import AuthScreen from "../auth-screen/auth-screen";
+import GameOverScreen from "../game-over-screen/game-over-screen";
+import WinScreen from "../win-screen/win-screen";
 import GameScreen from "../game-screen/game-screen";
-import artistQuestionProp from "../artist-question-screen/artist-question.prop";
-import genreQuestionProp from "../genre-question-screen/genre-question.prop";
+import {MAX_MISTAKE_COUNT} from "../../const";
 
-const App = (props) => {
-  const {errorsCount, questions} = props;
-
-  return <BrowserRouter>
-    <Switch>
-      <Route exact
-        path="/"
-        render={({history}) => (
-          <WelcomeScreen
-            onPlayButtonClick={() => history.push(`/game`)}
-            errorsCount={errorsCount}
-          />
-        )}
-      />
-      <Route path="/login" exact>
-        <Login />
-      </Route>
-      <Route path="/result" exact>
-        <ResultSuccess />
-      </Route>
-      <Route path="/lose" exact>
-        <FailTries />
-      </Route>
-      <Route exact path="/game">
-        <GameScreen
-          errorsCount={errorsCount}
-          questions={questions}
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact
+          path="/"
+          render={({history}) => (
+            <WelcomeScreen
+              onPlayButtonClick={() => history.push(`/game`)}
+              errorsCount={MAX_MISTAKE_COUNT}
+            />
+          )}
         />
-      </Route>
-    </Switch>
-  </BrowserRouter>;
+        <Route exact path="/login">
+          <AuthScreen />
+        </Route>
+        <Route exact path="/result">
+          <WinScreen />
+        </Route>
+        <Route exact path="/lose">
+          <GameOverScreen />
+        </Route>
+        <Route exact path="/game">
+          <GameScreen
+            errorsCount={MAX_MISTAKE_COUNT}
+          />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
 };
 
-App.propTypes = {
-  errorsCount: PropTypes.number.isRequired,
-  questions: PropTypes.arrayOf(
-      PropTypes.oneOfType([artistQuestionProp, genreQuestionProp]).isRequired
-  ),
-};
+App.propTypes = {};
 
 export default App;
